@@ -1,0 +1,9 @@
+.popover {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+.content {
+  position: absolute;
+  width: max-content;
+}
