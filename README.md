@@ -1,6 +1,6 @@
 # xueyan-react-popover
 
-react popover component
+React popover component
 
 ## Document
 
@@ -13,4 +13,4 @@ Please make sure that `Node` and `NPM` are installed on your computer, and `xuey
 ## Appendix
 
 Author: xueyan-site <xueyan@xueyan.site>  
-builder: [xueyan-typescript-cli](https://github.com/xueyan-site/xueyan-typescript-cli)  
+Builder: [xueyan-typescript-cli](https://github.com/xueyan-site/xueyan-typescript-cli)  
