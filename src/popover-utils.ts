@@ -106,15 +106,44 @@ const PLACEMENT_STYLE_MAP: {
   })
 }
 
+const AUTO_PLACEMENT_MAP: PopoverPlacement[][] = [
+  ['rightTop', 'bottom', 'leftTop'],
+  ['right', 'bottom', 'left'],
+  ['rightBottom', 'top', 'leftBottom']
+]
+
+export function getPlacement(
+  placement?: PopoverPlacement,
+  root?: HTMLDivElement | null
+) {
+  if (placement || !root) {
+    return placement || 'bottom'
+  }
+  const rect = root.getBoundingClientRect()
+  const vw = document.body.clientWidth
+  const vh = document.body.clientHeight
+  const rx = (rect.left + rect.right) / 2
+  const ry = (rect.top + rect.bottom) / 2
+  const vw3 = vw / 3
+  const vh3 = vh / 3
+  return AUTO_PLACEMENT_MAP[
+    ry < vh3 ? 0 : ry < (vh3 * 2) ? 1 : 2
+  ][
+    rx < vw3 ? 0 : rx < (vw3 * 2) ? 1 : 2
+  ]
+}
+
 export function getPlacementStyle(
-  placement: PopoverPlacement,
+  placement?: PopoverPlacement,
   root?: HTMLDivElement | null,
   offset?: string | number,
   spacing?: string | number,
   keepWidth?: number | ((rootRect: DOMRect) => number),
   keepHeight?: number | ((rootRect: DOMRect) => number)
-): React.CSSProperties {
-  const style = PLACEMENT_STYLE_MAP[placement](offset, spacing)
+): [React.CSSProperties, PopoverPlacement] {
+  const pm = getPlacement(placement, root)
+  const style = PLACEMENT_STYLE_MAP[pm](offset, spacing)
+  // 计算弹层内容区的宽度和高度
   if (root) {
     if (keepWidth) {
       const rootRect = root.getBoundingClientRect()
@@ -129,5 +158,5 @@ export function getPlacementStyle(
         : rootRect.height * keepHeight
     }
   }
-  return style
+  return [style, pm]
 }

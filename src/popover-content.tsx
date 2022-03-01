@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { createElement } from 'react'
 import { SlideTransition } from 'xueyan-react-transition'
 import { getPlacementStyle } from './popover-utils'
 import styles from './popover.scss'
@@ -12,7 +12,6 @@ interface PopoverContentStyle extends Pick<
 
 interface PartSlideTransitionProps extends Pick<
   SlideTransitionProps,
-  | 'children'
   | 'value'
   | 'unmount'
   | 'side'
@@ -29,9 +28,22 @@ interface PartSlideTransitionProps extends Pick<
   | 'leaveTimingFunction'
 > {}
 
+export interface PopoverContentNodeRenderProps {
+  /** 外部根节点 */
+  rootRef: React.RefObject<HTMLDivElement>
+  /** 弹层摆放位置 */
+  placement: PopoverPlacement
+}
+
+export type PopoverContentRender = React.ComponentType<PopoverContentNodeRenderProps>
+
 export interface PopoverContentProps extends PopoverContentStyle, PartSlideTransitionProps {
   /** 外部根节点 */
   rootRef: React.RefObject<HTMLDivElement>
+  /** 弹层内容节点 */
+  content?: React.ReactNode
+  /** 弹层内容渲染器 */
+  render?: PopoverContentRender
   /** 弹层摆放位置 */
   placement?: PopoverPlacement
   /** 弹层相对摆放位置的横向偏移量 */
@@ -47,12 +59,13 @@ export interface PopoverContentProps extends PopoverContentStyle, PartSlideTrans
 export function PopoverContent({
   rootRef,
   placement,
+  content,
+  render,
   offset,
   spacing,
   keepWidth,
   keepHeight,
   /** 部分SlideTransition的Props */
-  children,
   value,
   unmount,
   side,
@@ -70,21 +83,14 @@ export function PopoverContent({
   /** 内层的样式 */
   zIndex
 }: PopoverContentProps) {
-  const style = useMemo(() => getPlacementStyle(
-    placement || 'top',
+  const [style, pm] = getPlacementStyle(
+    placement,
     rootRef.current,
     offset,
     spacing || '4px',
     keepWidth,
     keepHeight
-  ), [
-    placement,
-    rootRef.current, 
-    offset,
-    spacing,
-    keepWidth,
-    keepHeight
-  ])
+  )
   return (
     <SlideTransition
       value={value}
@@ -110,7 +116,7 @@ export function PopoverContent({
         style={{ zIndex, ...style }}
         onClick={event => event.stopPropagation()}
       >
-        {children}
+        {render ? createElement(render, ({ rootRef, placement: pm })) : content}
       </div>
     </SlideTransition>
   )

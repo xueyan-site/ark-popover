@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import styles from './bubble-popover.scss'
 import { getArrowStyle } from './bubble-popover-utils'
 import { Popover } from './popover'
@@ -17,7 +17,12 @@ export interface BubblePopoverContentStyle extends Pick<
   | 'maxHeight'
 > {}
 
-export interface BubblePopoverProps extends PopoverProps, BubblePopoverContentStyle {
+interface PartPopoverProps extends Omit<
+  PopoverProps,
+  | 'render'
+> {}
+
+export interface BubblePopoverProps extends PartPopoverProps, BubblePopoverContentStyle {
   /** 隐藏箭头 */
   hiddenArrow?: boolean
   /** 箭头相对摆放位置的横向偏移量 */
@@ -41,13 +46,6 @@ export function BubblePopover({
   maxHeight,
   ...props
 }: BubblePopoverProps) {
-  const arrowStyle = useMemo(() => getArrowStyle(
-    placement || 'top',
-    arrowOffset
-  ), [
-    placement,
-    arrowOffset
-  ])
   return (
     <Popover 
       {...props}
@@ -59,7 +57,7 @@ export function BubblePopover({
           ? '4px' 
           : '10px'
       }
-      content={
+      render={props => (
         <div
           className={styles.inner}
           style={{
@@ -77,12 +75,18 @@ export function BubblePopover({
           {!hiddenArrow && (
             <div 
               className={styles.arrow}
-              style={{ backgroundColor, ...arrowStyle }}
+              style={{ 
+                backgroundColor, 
+                ...getArrowStyle(
+                  props.placement,
+                  arrowOffset
+                ) 
+              }}
             />
           )}
           {content}
         </div>
-      }
+      )}
     />
   )
 }

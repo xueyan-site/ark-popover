@@ -21,8 +21,6 @@ export interface PopoverProps extends PartPopoverContentProps {
   style?: React.CSSProperties
   /** 子节点 */
   children?: React.ReactNode
-  /** 弹层内容 */
-  content?: React.ReactNode
   /** 显示或隐藏 */
   value?: boolean
   /** 监听显示或隐藏 */
@@ -36,6 +34,7 @@ export function Popover({
   style,
   children,
   content,
+  render,
   value,
   onChange,
   trigger,
@@ -100,11 +99,13 @@ export function Popover({
       {...divProps}
     >
       {children}
-      {content && (
+      {(content || render) && (
         <PopoverContent
           {...props}
           value={_value}
           rootRef={rootRef}
+          content={content}
+          render={render}
           enterDelay={
             enterDelay !== undefined 
               ? enterDelay 
@@ -112,9 +113,7 @@ export function Popover({
               ? '.5s' 
               : undefined
           }
-        >
-          {content}
-        </PopoverContent>
+        />
       )}
     </div>
   )

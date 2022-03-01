@@ -27,7 +27,6 @@ export default function Main() {
         <div style={col}>
           <BubblePopover
             trigger='hover'
-            placement='top'
             maxWidth={50}
             keepWidth={1}
             content={<div>东西南北</div>}
