@@ -20,7 +20,7 @@ export interface PopoverRef {
 }
 
 export interface PopoverProps extends PartPopoverContentProps {
-  /** 标签名（默认div） */
+  /** 标签名（默认span） */
   tag?: keyof React.ReactHTML
   /** 类名 */
   className?: string
