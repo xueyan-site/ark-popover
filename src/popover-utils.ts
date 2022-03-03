@@ -114,7 +114,7 @@ const AUTO_PLACEMENT_MAP: PopoverPlacement[][] = [
 
 export function getPlacement(
   placement?: PopoverPlacement,
-  root?: HTMLDivElement | null
+  root?: HTMLElement | null
 ) {
   if (placement || !root) {
     return placement || 'bottom'
@@ -135,7 +135,7 @@ export function getPlacement(
 
 export function getPlacementStyle(
   placement?: PopoverPlacement,
-  root?: HTMLDivElement | null,
+  root?: HTMLElement | null,
   offset?: string | number,
   spacing?: string | number,
   keepWidth?: number | ((rootRect: DOMRect) => number),

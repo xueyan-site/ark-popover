@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { BubblePopover } from 'xueyan-react-popover'
+import { PopoverRef } from 'xueyan-react-popover'
 
 const row: React.CSSProperties = {
   height: 100,
@@ -11,12 +12,17 @@ const col: React.CSSProperties = {
 }
 
 export default function Main() {
+  const popoverRef = useRef<PopoverRef>(null)
+  useEffect(() => {
+    console.log(popoverRef)
+  }, [])
   return (
     <div style={{ margin: 100 }}>
       <div style={row}>
         <div style={col}></div>
         <div style={col}>
           <BubblePopover 
+            ref={popoverRef}
             placement='topLeft'
             backgroundColor="#ff3388"
             content={<div>东西南北</div>}

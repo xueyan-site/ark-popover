@@ -1,4 +1,4 @@
-import React, { createElement } from 'react'
+import React, { createElement, useLayoutEffect, useState } from 'react'
 import { SlideTransition } from 'xueyan-react-transition'
 import { getPlacementStyle } from './popover-utils'
 import styles from './popover.scss'
@@ -30,7 +30,7 @@ interface PartSlideTransitionProps extends Pick<
 
 export interface PopoverContentNodeRenderProps {
   /** 外部根节点 */
-  rootRef: React.RefObject<HTMLDivElement>
+  rootRef: React.RefObject<HTMLElement>
   /** 弹层摆放位置 */
   placement: PopoverPlacement
 }
@@ -39,7 +39,7 @@ export type PopoverContentRender = React.ComponentType<PopoverContentNodeRenderP
 
 export interface PopoverContentProps extends PopoverContentStyle, PartSlideTransitionProps {
   /** 外部根节点 */
-  rootRef: React.RefObject<HTMLDivElement>
+  rootRef: React.RefObject<HTMLElement>
   /** 弹层内容节点 */
   content?: React.ReactNode
   /** 弹层内容渲染器 */
@@ -83,7 +83,7 @@ export function PopoverContent({
   /** 内层的样式 */
   zIndex
 }: PopoverContentProps) {
-  const [style, pm] = getPlacementStyle(
+  const getter = () => getPlacementStyle(
     placement,
     rootRef.current,
     offset,
@@ -91,6 +91,15 @@ export function PopoverContent({
     keepWidth,
     keepHeight
   )
+  const [[style, pm], setData] = useState<[React.CSSProperties, PopoverPlacement]>(getter)
+  useLayoutEffect(() => setData(getter()), [
+    placement,
+    rootRef.current,
+    offset,
+    spacing,
+    keepWidth,
+    keepHeight
+  ])
   return (
     <SlideTransition
       value={value}
@@ -116,7 +125,10 @@ export function PopoverContent({
         style={{ zIndex, ...style }}
         onClick={event => event.stopPropagation()}
       >
-        {render ? createElement(render, ({ rootRef, placement: pm })) : content}
+        {render ? createElement(render, ({
+          rootRef: rootRef,
+          placement: pm
+        })) : content}
       </div>
     </SlideTransition>
   )

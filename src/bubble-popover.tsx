@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import styles from './bubble-popover.scss'
 import { getArrowStyle } from './bubble-popover-utils'
-import { Popover } from './popover'
+import { Popover, PopoverRef } from './popover'
 import type { PopoverProps } from './popover'
 
 export interface BubblePopoverContentStyle extends Pick<
@@ -29,7 +29,7 @@ export interface BubblePopoverProps extends PartPopoverProps, BubblePopoverConte
   arrowOffset?: string | number
 }
 
-export function BubblePopover({
+export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
   content,
   placement,
   spacing,
@@ -45,10 +45,11 @@ export function BubblePopover({
   maxWidth,
   maxHeight,
   ...props
-}: BubblePopoverProps) {
+}, ref) => {
   return (
     <Popover 
       {...props}
+      ref={ref}
       placement={placement}
       spacing={
         spacing !== undefined 
@@ -89,4 +90,4 @@ export function BubblePopover({
       )}
     />
   )
-}
+})
