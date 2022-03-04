@@ -1,4 +1,4 @@
-import { PopoverPlacement } from "./popover-utils"
+import { PartPopoverPlacement } from "./popover-utils"
 
 type ArrowStyleFn = (
   offset?: string | number
@@ -8,7 +8,7 @@ const ARROW_STYLE_MAP: {
   [k: string]: ArrowStyleFn
 } = {
   topLeft: (offset) => ({
-    left: offset ? `calc(14px + ${offset})` : '14px',
+    left: offset ? `calc(12px + ${offset})` : '12px',
     bottom: '4px',
     transform: 'translate(0, 100%) rotate(45deg)',
     boxShadow: '3px 3px 4px rgba(0,0,0,.05)'
@@ -20,13 +20,13 @@ const ARROW_STYLE_MAP: {
     boxShadow: '3px 3px 4px rgba(0,0,0,.05)'
   }),
   topRight: (offset) => ({
-    right: offset ? `calc(14px + ${offset})` : '14px',
+    right: offset ? `calc(12px + ${offset})` : '12px',
     bottom: '4px',
     transform: 'translate(0, 100%) rotate(45deg)',
     boxShadow: '3px 3px 4px rgba(0,0,0,.05)'
   }),
   bottomLeft: (offset) => ({
-    left: offset ? `calc(14px + ${offset})` : '14px',
+    left: offset ? `calc(12px + ${offset})` : '12px',
     top: '4px',
     transform: 'translate(0, -100%) rotate(45deg)',
     boxShadow: '-3px -3px 4px rgba(0,0,0,.05)'
@@ -38,13 +38,13 @@ const ARROW_STYLE_MAP: {
     boxShadow: '-3px -3px 4px rgba(0,0,0,.05)'
   }),
   bottomRight: (offset) => ({
-    right: offset ? `calc(14px + ${offset})` : '14px',
+    right: offset ? `calc(12px + ${offset})` : '12px',
     top: '4px',
     transform: 'translate(0, -100%) rotate(45deg)',
     boxShadow: '-3px -3px 4px rgba(0,0,0,.05)'
   }),
   leftTop: (offset) => ({
-    top: offset ? `calc(14px + ${offset})` : '14px',
+    top: offset ? `calc(12px + ${offset})` : '12px',
     right: '4px',
     transform: 'translate(100%, 0) rotate(45deg)',
     boxShadow: '3px -3px 4px rgba(0,0,0,.05)'
@@ -56,13 +56,13 @@ const ARROW_STYLE_MAP: {
     boxShadow: '3px -3px 4px rgba(0,0,0,.05)'
   }),
   leftBottom: (offset) => ({
-    bottom: offset ? `calc(14px + ${offset})` : '14px',
+    bottom: offset ? `calc(12px + ${offset})` : '12px',
     right: '4px',
     transform: 'translate(100%, 0) rotate(45deg)',
     boxShadow: '3px -3px 4px rgba(0,0,0,.05)'
   }),
   rightTop: (offset) => ({
-    top: offset ? `calc(14px + ${offset})` : '14px',
+    top: offset ? `calc(12px + ${offset})` : '12px',
     left: '4px',
     transform: 'translate(-100%, 0) rotate(45deg)',
     boxShadow: '-3px 3px 4px rgba(0,0,0,.05)'
@@ -74,7 +74,7 @@ const ARROW_STYLE_MAP: {
     boxShadow: '-3px 3px 4px rgba(0,0,0,.05)'
   }),
   rightBottom: (offset) => ({
-    bottom: offset ? `calc(14px + ${offset})` : '14px',
+    bottom: offset ? `calc(12px + ${offset})` : '12px',
     left: '4px',
     transform: 'translate(-100%, 0) rotate(45deg)',
     boxShadow: '-3px 3px 4px rgba(0,0,0,.05)'
@@ -82,7 +82,7 @@ const ARROW_STYLE_MAP: {
 }
 
 export function getArrowStyle(
-  placement: PopoverPlacement,
+  placement: PartPopoverPlacement,
   offset?: string | number
 ): React.CSSProperties {
   return ARROW_STYLE_MAP[placement](offset)

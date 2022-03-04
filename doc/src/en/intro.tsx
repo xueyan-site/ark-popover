@@ -33,8 +33,7 @@ export default function Main() {
         <div style={col}>
           <BubblePopover
             trigger='hover'
-            maxWidth={50}
-            keepWidth={1}
+            keepStyle={1}
             content={<div>东西南北</div>}
           >
             <button>上中</button>
@@ -82,9 +81,7 @@ export default function Main() {
         <div style={col}>
           <BubblePopover
             trigger='hover'
-            placement='left'
-            maxWidth={50}
-            keepWidth={1}
+            keepStyle={1}
             content={<div>东西南北</div>}
           >
             <button>左中</button>
@@ -101,10 +98,7 @@ export default function Main() {
         </div>
         <div style={col}>
           <BubblePopover
-            trigger='hover'
-            placement='right'
-            maxWidth={50}
-            keepWidth={1}
+            keepStyle={1}
             content={<div>东西南北</div>}
           >
             <button>右中</button>
@@ -152,12 +146,10 @@ export default function Main() {
         <div style={col}>
           <BubblePopover
             trigger='hover'
-            placement='bottom'
-            maxWidth={50}
-            keepWidth={1}
+            keepStyle={1}
             content={<div>东西南北</div>}
           >
-            <button>下中</button>
+            <button style={{ display: 'block' }}>下中</button>
           </BubblePopover>
         </div>
         <div style={col}>

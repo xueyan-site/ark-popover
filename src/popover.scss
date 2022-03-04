@@ -2,7 +2,11 @@
   position: relative;
   cursor: pointer;
 }
+span.popover {
+  display: inline-block;
+}
 .content {
   position: absolute;
   width: max-content;
+  z-index: 100;
 }

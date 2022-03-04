@@ -49,6 +49,7 @@ export const Popover = forwardRef<PopoverRef, PopoverProps>(({
   value,
   onChange,
   trigger,
+  unmount,
   enterDelay,
   ...props
 }, ref) => {
@@ -124,6 +125,13 @@ export const Popover = forwardRef<PopoverRef, PopoverProps>(({
         value={curValue}
         content={content}
         render={render}
+        unmount={
+          unmount !== undefined
+            ? unmount
+            : curTrigger === 'hover'
+            ? true
+            : false
+        }
         enterDelay={
           enterDelay !== undefined 
             ? enterDelay

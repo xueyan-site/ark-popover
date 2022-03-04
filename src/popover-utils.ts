@@ -1,4 +1,6 @@
-export type PopoverPlacement = 
+import React from "react"
+
+export type PartPopoverPlacement = 
   | 'topLeft'
   | 'top'
   | 'topRight'
@@ -12,9 +14,23 @@ export type PopoverPlacement =
   | 'left'
   | 'leftBottom'
 
+export type PopoverPlacement =
+  PartPopoverPlacement
+  | 'auto'
+  | 'x'
+  | 'y'
+  | 'center'
+  | 'xCenter'
+  | 'yCenter'
+
 type PlacementStyleFn = (
   offset?: string | number,
   spacing?: string | number
+) => React.CSSProperties
+
+export type PopoverStyleKeeper = (
+  placement: PartPopoverPlacement, 
+  rootRect: DOMRect
 ) => React.CSSProperties
 
 const PLACEMENT_STYLE_MAP: { 
@@ -106,31 +122,78 @@ const PLACEMENT_STYLE_MAP: {
   })
 }
 
-const AUTO_PLACEMENT_MAP: PopoverPlacement[][] = [
-  ['rightTop', 'bottom', 'leftTop'],
-  ['right', 'bottom', 'left'],
-  ['rightBottom', 'top', 'leftBottom']
-]
+const PLACEMENT_MATRIX_MAP: {
+  [key: string]: PartPopoverPlacement[][]
+} = {
+  'auto': [
+    ['rightTop', 'bottom', 'leftTop'],
+    ['right', 'bottom', 'left'],
+    ['rightBottom', 'top', 'leftBottom']
+  ],
+  'x': [
+    ['rightTop', 'rightTop', 'leftTop'],
+    ['right', 'right', 'left'],
+    ['rightBottom', 'rightBottom', 'leftBottom']
+  ],
+  'y': [
+    ['bottomLeft', 'bottom', 'bottomRight'],
+    ['bottomLeft', 'bottom', 'bottomRight'],
+    ['topLeft', 'top', 'topRight']
+  ],
+  'center': [
+    ['right', 'bottom', 'left'],
+    ['right', 'bottom', 'left'],
+    ['right', 'top', 'left']
+  ],
+  'xCenter': [
+    ['right', 'right', 'left'],
+    ['right', 'right', 'left'],
+    ['right', 'right', 'left']
+  ],
+  'yCenter': [
+    ['bottom', 'bottom', 'bottom'],
+    ['bottom', 'bottom', 'bottom'],
+    ['top', 'top', 'top']
+  ],
+}
+
+const MIN_WIDTH_OR_HEIGHT = 36
 
 export function getPlacement(
   placement?: PopoverPlacement,
   root?: HTMLElement | null
-) {
-  if (placement || !root) {
-    return placement || 'bottom'
+): PartPopoverPlacement {
+  if (!root) {
+    return 'bottom'
   }
   const rect = root.getBoundingClientRect()
-  const vw = document.body.clientWidth
-  const vh = document.body.clientHeight
+  const opm = placement || 'auto'
+  const mtx = PLACEMENT_MATRIX_MAP[opm]
+  if (!mtx) {
+    return PLACEMENT_STYLE_MAP[opm] ? opm : 'bottom' as any
+  }
+  const parent = document.body
+  const pw = parent.clientWidth / 10
+  const ph = parent.clientHeight / 10
   const rx = (rect.left + rect.right) / 2
   const ry = (rect.top + rect.bottom) / 2
-  const vw3 = vw / 3
-  const vh3 = vh / 3
-  return AUTO_PLACEMENT_MAP[
-    ry < vh3 ? 0 : ry < (vh3 * 2) ? 1 : 2
+  let pm = mtx[
+    ry < (ph * 3) ? 0 : ry < (ph * 7) ? 1 : 2
   ][
-    rx < vw3 ? 0 : rx < (vw3 * 2) ? 1 : 2
+    rx < (pw * 3) ? 0 : rx < (pw * 7) ? 1 : 2
   ]
+  // 当根节点宽或高不大的时候，弹层内容居中显示
+  const pm0 = pm[0]
+  if ('lr'.includes(pm0)) {
+    if (rect.height < MIN_WIDTH_OR_HEIGHT) {
+      pm = pm0 === 'l' ? 'left' : 'right'
+    }
+  } else if ('tb'.includes(pm0)) {
+    if (rect.width < MIN_WIDTH_OR_HEIGHT) {
+      pm = pm0 === 't' ? 'top' : 'bottom'
+    }
+  }
+  return pm
 }
 
 export function getPlacementStyle(
@@ -138,24 +201,21 @@ export function getPlacementStyle(
   root?: HTMLElement | null,
   offset?: string | number,
   spacing?: string | number,
-  keepWidth?: number | ((rootRect: DOMRect) => number),
-  keepHeight?: number | ((rootRect: DOMRect) => number)
-): [React.CSSProperties, PopoverPlacement] {
+  keepStyle?: number | PopoverStyleKeeper,
+): [React.CSSProperties, PartPopoverPlacement] {
   const pm = getPlacement(placement, root)
   const style = PLACEMENT_STYLE_MAP[pm](offset, spacing)
   // 计算弹层内容区的宽度和高度
-  if (root) {
-    if (keepWidth) {
-      const rootRect = root.getBoundingClientRect()
-      style.width = keepWidth instanceof Function
-        ? keepWidth(rootRect)
-        : rootRect.width * keepWidth
-    }
-    if (keepHeight) {
-      const rootRect = root.getBoundingClientRect()
-      style.height = keepHeight instanceof Function
-        ? keepHeight(rootRect)
-        : rootRect.height * keepHeight
+  if (root && keepStyle) {
+    const rect = root.getBoundingClientRect()
+    if (keepStyle instanceof Function) {
+      Object.assign(style, keepStyle(pm, rect))
+    } else {
+      const attr = 'tb'.includes(pm[0]) ? 'width' : 'height'
+      const value = rect[attr] * keepStyle
+      if (value >= MIN_WIDTH_OR_HEIGHT) {
+        style[attr] = value
+      }
     }
   }
   return [style, pm]
