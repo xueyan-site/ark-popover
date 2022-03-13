@@ -1,3 +1,5 @@
+import 'xueyan-react-style'
+
 export { Popover } from './popover'
 export { BubblePopover } from './bubble-popover'
 

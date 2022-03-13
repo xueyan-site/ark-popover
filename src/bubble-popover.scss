@@ -1,18 +1,18 @@
 .inner {
   position: relative;
-  background-color: #fff;
+  background-color: var(--back);
   border-radius: 6px;
-  box-shadow: 0 0 4px rgba(0,0,0,.1);
+  box-shadow: 0 0 4px var(--shadow);
   box-sizing: border-box;
   padding: 6px;
-  color: rgba(0,0,0,.8);
+  color: var(--font);
   font-size: 14px;
   line-height: 1.5;
 }
 .arrow {
   position: absolute;
+  z-index: 0;
   width: 8px;
   height: 8px;
-  background-color: #fff;
-  z-index: 0;
+  background-color: var(--back);
 }
