@@ -59,7 +59,12 @@ export default function Main() {
           </BubblePopover>
         </div>
         <div style={col}>
-          
+          <BubblePopover
+            hiddenArrow={true}
+            content={<div>东西南北</div>}
+          >
+            <button>===</button>
+          </BubblePopover>
         </div>
         <div style={col}>
           

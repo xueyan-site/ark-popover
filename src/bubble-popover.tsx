@@ -32,6 +32,7 @@ export interface BubblePopoverProps extends PartPopoverProps, BubblePopoverConte
 export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
   content,
   placement,
+  transform,
   spacing,
   arrowOffset,
   hiddenArrow,
@@ -51,6 +52,11 @@ export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
       {...props}
       ref={ref}
       placement={placement}
+      transform={transform || (pm => (
+        (hiddenArrow && 'tb'.includes(pm[0]))
+          ? 'scaleY(.8)'
+          : 'scale(.8)'
+      ))}
       spacing={
         spacing !== undefined 
           ? spacing 

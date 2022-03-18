@@ -37,6 +37,11 @@ export interface PopoverContentNodeRenderProps {
 
 export type PopoverContentRender = React.ComponentType<PopoverContentNodeRenderProps>
 
+export type PopoverContentTransformGetter = (
+  /** 弹层摆放位置 */
+  placement: PartPopoverPlacement
+) => React.CSSProperties['transform']
+
 export interface PopoverContentProps extends PopoverContentStyle, PartSlideTransitionProps {
   /** 外部根节点 */
   rootRef: React.RefObject<HTMLElement>
@@ -50,6 +55,8 @@ export interface PopoverContentProps extends PopoverContentStyle, PartSlideTrans
   offset?: string | number
   /** 弹层与容器的间隙 */
   spacing?: string | number
+  /** 调整进入前或退出后的位置 */
+  transform?: React.CSSProperties['transform'] | PopoverContentTransformGetter
   /** 调整宽高度 */
   keepStyle?: number | PopoverStyleKeeper
 }
@@ -62,6 +69,7 @@ export function PopoverContent({
   offset,
   spacing,
   keepStyle,
+  transform,
   /** 部分SlideTransition的Props */
   value,
   unmount,
@@ -95,6 +103,9 @@ export function PopoverContent({
     spacing,
     keepStyle
   ])
+  const curTransform = transform instanceof Function
+    ? transform(pm)
+    : transform
   return (
     <SlideTransition
       value={value}
@@ -112,8 +123,9 @@ export function PopoverContent({
       leaveDuration={leaveDuration}
       leaveTimingFunction={leaveTimingFunction}
       transform={(style && style.transform)
-        ? `${style.transform} scale(.8)`
-        : 'scale(.8)'}
+        ? `${style.transform} ${curTransform}`
+        : curTransform
+      }
     >
       <div
         className={styles.content} 

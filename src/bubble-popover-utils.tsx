@@ -1,12 +1,10 @@
 import { PartPopoverPlacement } from "./popover-utils"
 
-type ArrowStyleFn = (
+type ArrowStyleGetter = (
   offset?: string | number
 ) => React.CSSProperties
 
-const ARROW_STYLE_MAP: {
-  [k: string]: ArrowStyleFn
-} = {
+const ARROW_STYLE_MAP: Record<string, ArrowStyleGetter> = {
   topLeft: (offset) => ({
     left: offset ? `calc(12px + ${offset})` : '12px',
     bottom: '4px',

@@ -17,13 +17,13 @@ export type PartPopoverPlacement =
 export type PopoverPlacement =
   PartPopoverPlacement
   | 'auto'
-  | 'x'
-  | 'y'
   | 'center'
+  | 'x'
   | 'xCenter'
+  | 'y'
   | 'yCenter'
 
-type PlacementStyleFn = (
+type PlacementStyleGetter = (
   offset?: string | number,
   spacing?: string | number
 ) => React.CSSProperties
@@ -33,9 +33,7 @@ export type PopoverStyleKeeper = (
   rootRect: DOMRect
 ) => React.CSSProperties
 
-const PLACEMENT_STYLE_MAP: { 
-  [k: string]: PlacementStyleFn 
-} = {
+const PLACEMENT_STYLE_MAP: Record<string, PlacementStyleGetter> = {
   topLeft: (offset, spacing) => ({
     paddingBottom: spacing,
     left: offset || 0,
@@ -122,33 +120,31 @@ const PLACEMENT_STYLE_MAP: {
   })
 }
 
-const PLACEMENT_MATRIX_MAP: {
-  [key: string]: PartPopoverPlacement[][]
-} = {
+const PLACEMENT_MATRIX_MAP: Record<string, PartPopoverPlacement[][]> = {
   'auto': [
     ['rightTop', 'bottom', 'leftTop'],
     ['right', 'bottom', 'left'],
     ['rightBottom', 'top', 'leftBottom']
-  ],
-  'x': [
-    ['rightTop', 'rightTop', 'leftTop'],
-    ['right', 'right', 'left'],
-    ['rightBottom', 'rightBottom', 'leftBottom']
-  ],
-  'y': [
-    ['bottomLeft', 'bottom', 'bottomRight'],
-    ['bottomLeft', 'bottom', 'bottomRight'],
-    ['topLeft', 'top', 'topRight']
   ],
   'center': [
     ['right', 'bottom', 'left'],
     ['right', 'bottom', 'left'],
     ['right', 'top', 'left']
   ],
+  'x': [
+    ['rightTop', 'rightTop', 'leftTop'],
+    ['right', 'right', 'left'],
+    ['rightBottom', 'rightBottom', 'leftBottom']
+  ],
   'xCenter': [
     ['right', 'right', 'left'],
     ['right', 'right', 'left'],
     ['right', 'right', 'left']
+  ],
+  'y': [
+    ['bottomLeft', 'bottom', 'bottomRight'],
+    ['bottomLeft', 'bottom', 'bottomRight'],
+    ['topLeft', 'top', 'topRight']
   ],
   'yCenter': [
     ['bottom', 'bottom', 'bottom'],
