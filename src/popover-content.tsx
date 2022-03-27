@@ -2,49 +2,30 @@ import React, { createElement, useLayoutEffect, useState } from 'react'
 import { SlideTransition } from 'xueyan-react-transition'
 import { getPlacementStyle } from './popover-utils'
 import styles from './popover.scss'
-import type { PartPopoverPlacement, PopoverPlacement, PopoverStyleKeeper } from './popover-utils'
+import type { PopoverBasePlacement, PopoverPlacement, PopoverStyleKeeper } from './popover-utils'
 import type { SlideTransitionProps } from 'xueyan-react-transition'
-
-interface PopoverContentStyle extends Pick<
-  React.CSSProperties,
-  | 'zIndex'
-> {}
-
-interface PartSlideTransitionProps extends Pick<
-  SlideTransitionProps,
-  | 'value'
-  | 'unmount'
-  | 'side'
-  | 'sideStyle'
-  | 'middle'
-  | 'middleStyle'
-  | 'active'
-  | 'activeStyle'
-  | 'enterDelay'
-  | 'enterDuration'
-  | 'enterTimingFunction'
-  | 'leaveDelay'
-  | 'leaveDuration'
-  | 'leaveTimingFunction'
-> {}
 
 export interface PopoverContentNodeRenderProps {
   /** 外部根节点 */
   rootRef: React.RefObject<HTMLElement>
   /** 弹层摆放位置 */
-  placement: PartPopoverPlacement
+  placement: PopoverBasePlacement
 }
 
 export type PopoverContentRender = React.ComponentType<PopoverContentNodeRenderProps>
 
 export type PopoverContentTransformGetter = (
   /** 弹层摆放位置 */
-  placement: PartPopoverPlacement
+  placement: PopoverBasePlacement
 ) => React.CSSProperties['transform']
 
-export interface PopoverContentProps extends PopoverContentStyle, PartSlideTransitionProps {
+export interface PopoverContentProps {
+  /** transition组件props */
+  transition?: SlideTransitionProps
   /** 外部根节点 */
   rootRef: React.RefObject<HTMLElement>
+  /** 弹层层级 */
+  zIndex?: React.CSSProperties['zIndex']
   /** 弹层内容节点 */
   content?: React.ReactNode
   /** 弹层内容渲染器 */
@@ -55,14 +36,16 @@ export interface PopoverContentProps extends PopoverContentStyle, PartSlideTrans
   offset?: string | number
   /** 弹层与容器的间隙 */
   spacing?: string | number
-  /** 调整进入前或退出后的位置 */
-  transform?: React.CSSProperties['transform'] | PopoverContentTransformGetter
   /** 调整宽高度 */
   keepStyle?: number | PopoverStyleKeeper
+  /** 弹层进入前或退出后的位置 */
+  transform?: React.CSSProperties['transform'] | PopoverContentTransformGetter
 }
 
 export function PopoverContent({
   rootRef,
+  transition,
+  zIndex,
   content,
   render,
   placement,
@@ -70,23 +53,6 @@ export function PopoverContent({
   spacing,
   keepStyle,
   transform,
-  /** 部分SlideTransition的Props */
-  value,
-  unmount,
-  side,
-  sideStyle,
-  middle,
-  middleStyle,
-  active,
-  activeStyle,
-  enterDelay,
-  enterDuration,
-  enterTimingFunction,
-  leaveDelay,
-  leaveDuration,
-  leaveTimingFunction,
-  /** 内层的样式 */
-  zIndex
 }: PopoverContentProps) {
   const getter = () => getPlacementStyle(
     placement,
@@ -103,28 +69,15 @@ export function PopoverContent({
     spacing,
     keepStyle
   ])
-  const curTransform = transform instanceof Function
+  const _transform = transform instanceof Function
     ? transform(pm)
     : transform
   return (
     <SlideTransition
-      value={value}
-      unmount={unmount}
-      side={side}
-      sideStyle={sideStyle}
-      middle={middle}
-      middleStyle={middleStyle}
-      active={active}
-      activeStyle={activeStyle}
-      enterDelay={enterDelay}
-      enterDuration={enterDuration}
-      enterTimingFunction={enterTimingFunction}
-      leaveDelay={leaveDelay}
-      leaveDuration={leaveDuration}
-      leaveTimingFunction={leaveTimingFunction}
+      {...transition}
       transform={(style && style.transform)
-        ? `${style.transform} ${curTransform}`
-        : curTransform
+        ? `${style.transform} ${_transform}`
+        : _transform
       }
     >
       <div

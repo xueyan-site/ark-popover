@@ -1,4 +1,4 @@
-import { PartPopoverPlacement } from "./popover-utils"
+import { PopoverBasePlacement } from "./popover-utils"
 
 type ArrowStyleGetter = (
   offset?: string | number
@@ -80,7 +80,7 @@ const ARROW_STYLE_MAP: Record<string, ArrowStyleGetter> = {
 }
 
 export function getArrowStyle(
-  placement: PartPopoverPlacement,
+  placement: PopoverBasePlacement,
   offset?: string | number
 ): React.CSSProperties {
   return ARROW_STYLE_MAP[placement](offset)

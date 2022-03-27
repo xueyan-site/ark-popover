@@ -1,6 +1,6 @@
 import React from "react"
 
-export type PartPopoverPlacement = 
+export type PopoverBasePlacement = 
   | 'topLeft'
   | 'top'
   | 'topRight'
@@ -15,7 +15,7 @@ export type PartPopoverPlacement =
   | 'leftBottom'
 
 export type PopoverPlacement =
-  PartPopoverPlacement
+  PopoverBasePlacement
   | 'auto'
   | 'center'
   | 'x'
@@ -29,7 +29,7 @@ type PlacementStyleGetter = (
 ) => React.CSSProperties
 
 export type PopoverStyleKeeper = (
-  placement: PartPopoverPlacement, 
+  placement: PopoverBasePlacement, 
   rootRect: DOMRect
 ) => React.CSSProperties
 
@@ -120,7 +120,7 @@ const PLACEMENT_STYLE_MAP: Record<string, PlacementStyleGetter> = {
   })
 }
 
-const PLACEMENT_MATRIX_MAP: Record<string, PartPopoverPlacement[][]> = {
+const PLACEMENT_MATRIX_MAP: Record<string, PopoverBasePlacement[][]> = {
   'auto': [
     ['rightTop', 'bottom', 'leftTop'],
     ['right', 'bottom', 'left'],
@@ -158,7 +158,7 @@ const MIN_WIDTH_OR_HEIGHT = 36
 export function getPlacement(
   placement?: PopoverPlacement,
   root?: HTMLElement | null
-): PartPopoverPlacement {
+): PopoverBasePlacement {
   if (!root) {
     return 'bottom'
   }
@@ -198,7 +198,7 @@ export function getPlacementStyle(
   offset?: string | number,
   spacing?: string | number,
   keepStyle?: number | PopoverStyleKeeper,
-): [React.CSSProperties, PartPopoverPlacement] {
+): [React.CSSProperties, PopoverBasePlacement] {
   const pm = getPlacement(placement, root)
   const style = PLACEMENT_STYLE_MAP[pm](offset, spacing)
   // 计算弹层内容区的宽度和高度

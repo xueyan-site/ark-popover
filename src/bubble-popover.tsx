@@ -4,25 +4,11 @@ import { getArrowStyle } from './bubble-popover-utils'
 import { Popover, PopoverRef } from './popover'
 import type { PopoverProps } from './popover'
 
-export interface BubblePopoverContentStyle extends Pick<
-  React.CSSProperties,
-  | 'backgroundColor'
-  | 'borderRadius'
-  | 'padding'
-  | 'width'
-  | 'height'
-  | 'minWidth'
-  | 'maxWidth'
-  | 'minHeight'
-  | 'maxHeight'
-> {}
-
-interface PartPopoverProps extends Omit<
-  PopoverProps,
-  | 'render'
-> {}
-
-export interface BubblePopoverProps extends PartPopoverProps, BubblePopoverContentStyle {
+export interface BubblePopoverProps extends PopoverProps {
+  /** 弹层样式 */
+  contentStyle?: React.CSSProperties
+  /** 弹层背景色 */
+  backgroundColor?: React.CSSProperties['backgroundColor']
   /** 隐藏箭头 */
   hiddenArrow?: boolean
   /** 箭头相对摆放位置的横向偏移量 */
@@ -34,17 +20,10 @@ export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
   placement,
   transform,
   spacing,
+  contentStyle,
+  backgroundColor,
   arrowOffset,
   hiddenArrow,
-  backgroundColor,
-  borderRadius,
-  padding,
-  width,
-  height,
-  minWidth,
-  minHeight,
-  maxWidth,
-  maxHeight,
   ...props
 }, ref) => {
   return (
@@ -68,21 +47,14 @@ export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
         <div
           className={styles.inner}
           style={{
-            width,
-            height,
-            minWidth,
-            maxWidth,
-            minHeight,
-            maxHeight,
-            backgroundColor,
-            borderRadius,
-            padding
+            ...contentStyle,
+            backgroundColor
           }}
         >
           {!hiddenArrow && (
             <div 
               className={styles.arrow}
-              style={{ 
+              style={{
                 backgroundColor, 
                 ...getArrowStyle(
                   props.placement,

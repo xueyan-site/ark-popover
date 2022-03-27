@@ -4,11 +4,6 @@ import { PopoverContent } from './popover-content'
 import styles from './popover.scss'
 import type { PopoverContentProps } from './popover-content'
 
-interface PartPopoverContentProps extends Omit<
-  PopoverContentProps,
-  | 'rootRef'
-> {}
-
 export type PopoverTrigger =
   | 'click'
   | 'focus'
@@ -19,7 +14,7 @@ export interface PopoverRef {
   rootNode: HTMLElement | null
 }
 
-export interface PopoverProps extends PartPopoverContentProps {
+export interface PopoverProps extends Omit<PopoverContentProps, 'rootRef'> {
   /** 标签名（默认span） */
   tag?: keyof React.ReactHTML
   /** 类名 */
@@ -49,8 +44,7 @@ export const Popover = forwardRef<PopoverRef, PopoverProps>(({
   value,
   onChange,
   trigger,
-  unmount,
-  enterDelay,
+  transition,
   ...props
 }, ref) => {
   const [_value, _setValue] = useState(value)
@@ -113,6 +107,8 @@ export const Popover = forwardRef<PopoverRef, PopoverProps>(({
       }
     }
   }
+
+  const _transition = transition || {}
   
   return createElement(
     tag || 'span',
@@ -122,23 +118,22 @@ export const Popover = forwardRef<PopoverRef, PopoverProps>(({
       <PopoverContent
         {...props}
         rootRef={rootRef}
-        value={curValue}
         content={content}
         render={render}
-        unmount={
-          unmount !== undefined
-            ? unmount
+        transition={{
+          ..._transition,
+          value: curValue,
+          unmount: _transition.unmount !== undefined
+            ? _transition.unmount
             : curTrigger === 'hover'
             ? true
-            : false
-        }
-        enterDelay={
-          enterDelay !== undefined 
-            ? enterDelay
+            : false,
+          enterDelay: _transition.enterDelay !== undefined 
+            ? _transition.enterDelay
             : curTrigger === 'hover' 
             ? '.5s'
             : undefined
-        }
+        }}
       />
     )
   )
