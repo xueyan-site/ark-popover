@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { BubblePopover } from 'xueyan-react-popover'
+import { Popover, BubblePopover } from 'xueyan-react-popover'
 import { PopoverRef } from 'xueyan-react-popover'
 
 const row: React.CSSProperties = {
@@ -17,14 +17,28 @@ export default function Main() {
     console.log(popoverRef)
   }, [])
   return (
-    <div style={{ margin: 100 }}>
+    <div style={{ 
+      margin: 100, 
+      height: '400px', 
+      resize: 'horizontal',
+      background: 'var(--back)',
+      color: 'var(--font)',
+      padding: '50px'
+    }}>
+      <Popover 
+        ref={popoverRef}
+        placement='topLeft'
+        content={<div>东西南北</div>}
+      >
+        <button>上左</button>
+      </Popover>
       <div style={row}>
         <div style={col}></div>
         <div style={col}>
           <BubblePopover 
+            value={true}
             ref={popoverRef}
             placement='topLeft'
-            backgroundColor="#ff3388"
             content={<div>东西南北</div>}
           >
             <button>上左</button>
@@ -61,6 +75,7 @@ export default function Main() {
         <div style={col}>
           <BubblePopover
             hiddenArrow={true}
+            placement='bottomLeft'
             content={<div>东西南北</div>}
           >
             <button>===</button>
@@ -104,6 +119,7 @@ export default function Main() {
         <div style={col}>
           <BubblePopover
             keepStyle={1}
+            placement="left"
             content={<div>东西南北</div>}
           >
             <button>右中</button>

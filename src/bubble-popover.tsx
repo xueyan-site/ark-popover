@@ -2,11 +2,14 @@ import React, { forwardRef } from 'react'
 import styles from './bubble-popover.scss'
 import { getArrowStyle } from './bubble-popover-utils'
 import { Popover, PopoverRef } from './popover'
+import { ArrowIcon } from './arrow-icon'
 import type { PopoverProps } from './popover'
 
 export interface BubblePopoverProps extends PopoverProps {
   /** 弹层样式 */
   contentStyle?: React.CSSProperties
+  /** 弹层边框色 */
+  borderColor?: React.CSSProperties['borderColor']
   /** 弹层背景色 */
   backgroundColor?: React.CSSProperties['backgroundColor']
   /** 隐藏箭头 */
@@ -21,16 +24,19 @@ export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
   transform,
   spacing,
   contentStyle,
+  borderColor,
   backgroundColor,
   arrowOffset,
   hiddenArrow,
   ...props
 }, ref) => {
+  const _borderColor = borderColor || 'var(--alpha4)'
+  const _backgroundColor = backgroundColor || 'var(--back2)'
   return (
     <Popover 
       {...props}
       ref={ref}
-      placement={placement}
+      placement={placement || (hiddenArrow ? 'yLeft' : undefined)}
       transform={transform || (pm => (
         (hiddenArrow && 'tb'.includes(pm[0]))
           ? 'scaleY(.8)'
@@ -43,29 +49,32 @@ export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
           ? '4px' 
           : '10px'
       }
-      render={props => (
-        <div
-          className={styles.inner}
-          style={{
-            ...contentStyle,
-            backgroundColor
-          }}
-        >
-          {!hiddenArrow && (
-            <div 
-              className={styles.arrow}
-              style={{
-                backgroundColor, 
-                ...getArrowStyle(
-                  props.placement,
-                  arrowOffset
-                ) 
-              }}
-            />
-          )}
-          {content}
-        </div>
-      )}
+      render={props => {
+        const horizontal = 'lr'.includes(props.placement[0])
+        return (
+          <div
+            className={styles.inner}
+            style={{
+              minWidth: horizontal ? '32px' : undefined,
+              minHeight: horizontal ? '32px' : undefined,
+              ...contentStyle,
+              borderColor: _borderColor,
+              backgroundColor: _backgroundColor
+            }}
+          >
+            {!hiddenArrow && (
+              <ArrowIcon
+                className={styles.arrow}
+                style={getArrowStyle(props.placement, arrowOffset)}
+                horizontal={horizontal}
+                borderColor={_borderColor}
+                backgroundColor={_backgroundColor}
+              />
+            )}
+            {content}
+          </div>
+        )
+      }}
     />
   )
 })

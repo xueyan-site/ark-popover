@@ -19,9 +19,13 @@ export type PopoverPlacement =
   | 'auto'
   | 'center'
   | 'x'
+  | 'xTop'
   | 'xCenter'
+  | 'xBottom'
   | 'y'
+  | 'yLeft'
   | 'yCenter'
+  | 'yRight'
 
 type PlacementStyleGetter = (
   offset?: string | number,
@@ -136,20 +140,40 @@ const PLACEMENT_MATRIX_MAP: Record<string, PopoverBasePlacement[][]> = {
     ['right', 'right', 'left'],
     ['rightBottom', 'rightBottom', 'leftBottom']
   ],
+  'xTop': [
+    ['rightTop', 'rightTop', 'leftTop'],
+    ['rightTop', 'rightTop', 'leftTop'],
+    ['rightTop', 'rightTop', 'leftTop']
+  ],
   'xCenter': [
     ['right', 'right', 'left'],
     ['right', 'right', 'left'],
     ['right', 'right', 'left']
+  ],
+  'xBottom': [
+    ['rightBottom', 'rightBottom', 'leftBottom'],
+    ['rightBottom', 'rightBottom', 'leftBottom'],
+    ['rightBottom', 'rightBottom', 'leftBottom']
   ],
   'y': [
     ['bottomLeft', 'bottom', 'bottomRight'],
     ['bottomLeft', 'bottom', 'bottomRight'],
     ['topLeft', 'top', 'topRight']
   ],
+  'yLeft': [
+    ['bottomLeft', 'bottomLeft', 'bottomLeft'],
+    ['bottomLeft', 'bottomLeft', 'bottomLeft'],
+    ['topLeft', 'topLeft', 'topLeft']
+  ],
   'yCenter': [
     ['bottom', 'bottom', 'bottom'],
     ['bottom', 'bottom', 'bottom'],
     ['top', 'top', 'top']
+  ],
+  'yRight': [
+    ['bottomRight', 'bottomRight', 'bottomRight'],
+    ['bottomRight', 'bottomRight', 'bottomRight'],
+    ['topRight', 'topRight', 'topRight']
   ],
 }
 

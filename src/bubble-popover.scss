@@ -1,9 +1,9 @@
 .inner {
   position: relative;
-  background-color: var(--back);
   border-radius: 6px;
-  box-shadow: 0 0 4px var(--shadow);
   box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
   padding: 6px;
   color: var(--font);
   font-size: 14px;
@@ -12,7 +12,4 @@
 .arrow {
   position: absolute;
   z-index: 0;
-  width: 8px;
-  height: 8px;
-  background-color: var(--back);
 }

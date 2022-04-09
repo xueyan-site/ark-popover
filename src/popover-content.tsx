@@ -1,4 +1,5 @@
 import React, { createElement, useLayoutEffect, useState } from 'react'
+import cn from 'classnames'
 import { SlideTransition } from 'xueyan-react-transition'
 import { getPlacementStyle } from './popover-utils'
 import styles from './popover.scss'
@@ -27,7 +28,7 @@ export interface PopoverContentProps {
   /** 弹层层级 */
   zIndex?: React.CSSProperties['zIndex']
   /** 弹层内容节点 */
-  content?: React.ReactNode
+  children?: React.ReactNode
   /** 弹层内容渲染器 */
   render?: PopoverContentRender
   /** 弹层摆放位置 */
@@ -46,7 +47,7 @@ export function PopoverContent({
   rootRef,
   transition,
   zIndex,
-  content,
+  children,
   render,
   placement,
   offset,
@@ -61,7 +62,7 @@ export function PopoverContent({
     spacing || '4px',
     keepStyle
   )
-  const [[style, pm], setData] = useState(getter)
+  const [[style, _placement], setData] = useState(getter)
   useLayoutEffect(() => setData(getter()), [
     placement,
     rootRef.current,
@@ -70,25 +71,23 @@ export function PopoverContent({
     keepStyle
   ])
   const _transform = transform instanceof Function
-    ? transform(pm)
+    ? transform(_placement)
     : transform
+
   return (
     <SlideTransition
       {...transition}
-      transform={(style && style.transform)
-        ? `${style.transform} ${_transform}`
-        : _transform
-      }
+      transform={cn(style && style.transform, _transform)}
     >
       <div
-        className={styles.content} 
+        className={styles.content}
         style={{ zIndex, ...style }}
         onClick={event => event.stopPropagation()}
       >
         {render ? createElement(render, ({
           rootRef: rootRef,
-          placement: pm
-        })) : content}
+          placement: _placement
+        })) : children}
       </div>
     </SlideTransition>
   )

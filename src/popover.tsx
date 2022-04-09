@@ -14,44 +14,50 @@ export interface PopoverRef {
   rootNode: HTMLElement | null
 }
 
-export interface PopoverProps extends Omit<PopoverContentProps, 'rootRef'> {
+export interface PopoverProps extends Omit<
+  PopoverContentProps, 
+  | 'rootRef'
+  | 'children'
+> {
   /** 标签名（默认span） */
   tag?: keyof React.ReactHTML
   /** 类名 */
   className?: string
   /** 样式 */
   style?: React.CSSProperties
+  /** 子节点 */
+  children?: React.ReactElement
+  /** 弹层内容节点 */
+  content?: React.ReactNode
+  /** 弹层触发方式 */
+  trigger?: PopoverTrigger
   /** 禁用 */
   disabled?: boolean
-  /** 子节点 */
-  children?: React.ReactNode
   /** 显示或隐藏 */
   value?: boolean
   /** 监听显示或隐藏 */
   onChange?: (value: boolean) => void
-  /** 弹层触发方式 */
-  trigger?: PopoverTrigger
 }
 
 export const Popover = forwardRef<PopoverRef, PopoverProps>(({
   tag,
   className,
   style,
-  disabled,
   children,
   content,
   render,
+  disabled,
   value,
   onChange,
   trigger,
   transition,
   ...props
 }, ref) => {
-  const [_value, _setValue] = useState(value)
-  const rootRef = useRef<HTMLElement>(null)
-  const curTrigger = trigger || 'click'
-  const curValue = (onChange ? value : _value) || false
-  const curOnChange = onChange || _setValue
+  const [value1, setValue1] = useState(value)
+  const rootRef = useRef<any>(null)
+  const _trigger = trigger || 'click'
+  const _value = (onChange ? value : value1) || false
+  const _onChange = onChange || setValue1
 
   useImperativeHandle(ref, () => ({
     rootNode: rootRef.current
@@ -60,20 +66,20 @@ export const Popover = forwardRef<PopoverRef, PopoverProps>(({
   // 若当前属于click触发
   // 需监听全局点击事件以取消显示popover
   useEffect(() => {
-    if (disabled || !rootRef.current || !curValue || curTrigger !== 'click') {
+    if (disabled || !_value || !rootRef.current || _trigger !== 'click') {
       return
     }
     const close = (event: MouseEvent) => {
       const root = rootRef.current
       if (root && !root.contains(event.target as any)) {
-        curOnChange(false)
+        _onChange(false)
       }
     }
     document.addEventListener('mousedown', close)
     return () => {
       document.removeEventListener('mousedown', close)
     }
-  }, [curTrigger, disabled, curValue, curOnChange])
+  }, [disabled, _trigger, _value, _onChange])
 
   // 计算根节点的props
   const rootProps: React.ClassAttributes<HTMLElement> & React.HTMLAttributes<HTMLElement> = {
@@ -82,29 +88,20 @@ export const Popover = forwardRef<PopoverRef, PopoverProps>(({
     style,
   }
   if (!disabled) {
-    if (curTrigger === 'click') {
-      rootProps.onClick = event => {
+    const listener = (event: any, value: boolean) => {
+      _onChange(value)
+      if (event && event.stopPropagation) {
         event.stopPropagation()
-        curOnChange(!_value)
       }
-    } else if (curTrigger === 'focus') {
-      rootProps.onFocus = event => {
-        event.stopPropagation()
-        curOnChange(true)
-      }
-      rootProps.onBlur = event => {
-        event.stopPropagation()
-        curOnChange(false)
-      }
-    } else if (curTrigger === 'hover') {
-      rootProps.onMouseOver = event => {
-        event.stopPropagation()
-        curOnChange(true)
-      }
-      rootProps.onMouseLeave = event => {
-        event.stopPropagation()
-        curOnChange(false)
-      }
+    }
+    if (_trigger === 'click') {
+      rootProps.onClick = (e: any) => listener(e, !_value)
+    } else if (_trigger === 'focus') {
+      rootProps.onFocus = (e: any) => listener(e, true)
+      rootProps.onBlur = (e: any) => listener(e, false)
+    } else if (_trigger === 'hover') {
+      rootProps.onMouseOver = (e: any) => listener(e, true)
+      rootProps.onMouseLeave = (e: any) => listener(e, false)
     }
   }
 
@@ -118,23 +115,24 @@ export const Popover = forwardRef<PopoverRef, PopoverProps>(({
       <PopoverContent
         {...props}
         rootRef={rootRef}
-        content={content}
         render={render}
         transition={{
           ..._transition,
-          value: curValue,
+          value: _value,
           unmount: _transition.unmount !== undefined
             ? _transition.unmount
-            : curTrigger === 'hover'
+            : _trigger === 'hover'
             ? true
             : false,
           enterDelay: _transition.enterDelay !== undefined 
             ? _transition.enterDelay
-            : curTrigger === 'hover' 
+            : _trigger === 'hover' 
             ? '.5s'
             : undefined
         }}
-      />
+      >
+        {content}
+      </PopoverContent>
     )
   )
 })
