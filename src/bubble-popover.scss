@@ -1,4 +1,4 @@
-.inner {
+.xrinner {
   position: relative;
   border-radius: 6px;
   box-sizing: border-box;
@@ -8,8 +8,8 @@
   color: var(--font);
   font-size: 14px;
   line-height: 1.5;
-}
-.arrow {
-  position: absolute;
-  z-index: 0;
+  .arrow {
+    position: absolute;
+    z-index: 0;
+  }
 }

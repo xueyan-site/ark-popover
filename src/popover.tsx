@@ -84,7 +84,7 @@ export const Popover = forwardRef<PopoverRef, PopoverProps>(({
   // 计算根节点的props
   const rootProps: React.ClassAttributes<HTMLElement> & React.HTMLAttributes<HTMLElement> = {
     ref: rootRef,
-    className: cn(styles.popover, className),
+    className: cn(styles.xrpopover, className),
     style,
   }
   if (!disabled) {

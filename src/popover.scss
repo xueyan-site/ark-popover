@@ -1,12 +1,12 @@
-.popover {
-  position: relative;
-  cursor: pointer;
-}
-span.popover {
+span.xrpopover {
   display: inline-block;
 }
-.content {
-  position: absolute;
-  width: max-content;
-  z-index: 100;
+.xrpopover {
+  position: relative;
+  cursor: pointer;
+  .content {
+    position: absolute;
+    width: max-content;
+    z-index: 100;
+  }
 }

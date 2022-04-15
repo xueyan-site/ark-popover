@@ -30,7 +30,7 @@ export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
   hiddenArrow,
   ...props
 }, ref) => {
-  const _borderColor = borderColor || 'var(--alpha4)'
+  const _borderColor = borderColor || 'var(--alpha5)'
   const _backgroundColor = backgroundColor || 'var(--back2)'
   return (
     <Popover 
@@ -53,7 +53,7 @@ export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
         const horizontal = 'lr'.includes(props.placement[0])
         return (
           <div
-            className={styles.inner}
+            className={styles.xrinner}
             style={{
               minWidth: horizontal ? '32px' : undefined,
               minHeight: horizontal ? '32px' : undefined,
