@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react'
+import cn from 'classnames'
 import styles from './bubble-popover.scss'
 import { getArrowStyle } from './bubble-popover-utils'
 import { Popover, PopoverRef } from './popover'
@@ -6,6 +7,8 @@ import { ArrowIcon } from './arrow-icon'
 import type { PopoverProps } from './popover'
 
 export interface BubblePopoverProps extends PopoverProps {
+  /** 弹层类名 */
+  contentClassName?: string
   /** 弹层样式 */
   contentStyle?: React.CSSProperties
   /** 弹层边框色 */
@@ -23,6 +26,7 @@ export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
   placement,
   transform,
   spacing,
+  contentClassName,
   contentStyle,
   borderColor,
   backgroundColor,
@@ -53,7 +57,7 @@ export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
         const horizontal = 'lr'.includes(props.placement[0])
         return (
           <div
-            className={styles.xrinner}
+            className={cn(contentClassName, styles.xrinner)}
             style={{
               minWidth: horizontal ? '32px' : undefined,
               minHeight: horizontal ? '32px' : undefined,
