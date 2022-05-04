@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Popover, BubblePopover } from 'xueyan-react-popover'
 import { PopoverRef } from 'xueyan-react-popover'
+import { SwitchTheme } from 'xueyan-react-style'
 
 const row: React.CSSProperties = {
   height: 100,
@@ -21,10 +22,11 @@ export default function Main() {
       margin: 100, 
       height: '400px', 
       resize: 'horizontal',
-      background: 'var(--back)',
+      background: 'var(--base)',
       color: 'var(--font)',
       padding: '50px'
     }}>
+      <SwitchTheme/>
       <Popover 
         ref={popoverRef}
         placement='topLeft'

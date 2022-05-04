@@ -34,8 +34,8 @@ export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
   hiddenArrow,
   ...props
 }, ref) => {
-  const _borderColor = borderColor || 'var(--alpha5)'
-  const _backgroundColor = backgroundColor || 'var(--back2)'
+  const _borderColor = borderColor || 'var(--area2)'
+  const _backgroundColor = backgroundColor || 'var(--base1)'
   return (
     <Popover 
       {...props}
@@ -50,7 +50,7 @@ export const BubblePopover = forwardRef<PopoverRef, BubblePopoverProps>(({
         spacing !== undefined 
           ? spacing 
           : hiddenArrow 
-          ? '4px' 
+          ? '6px' 
           : '10px'
       }
       render={props => {

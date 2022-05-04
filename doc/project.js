@@ -6,7 +6,8 @@ module.exports = {
     ast: 'pub/ast',
     com: 'pub/com',
     utl: 'pub/utl',
-    'xueyan-react-popover': '../src'
+    'xueyan-react-popover': '../src',
+    'xueyan-react-style': '../node_modules/xueyan-react-style'
   },
   module: {
     externals: {
