@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.12.0",
-    "xueyan-react-style": "^2.0.1",
+    "xueyan-react-style": "^2.0.2",
     "xueyan-react-transition": "^1.0.8"
   },
   "peerDependencies": {
