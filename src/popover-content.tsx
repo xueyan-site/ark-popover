@@ -59,7 +59,7 @@ export function PopoverContent({
     placement,
     rootRef.current,
     offset,
-    spacing || '4px',
+    spacing || '6px',
     keepStyle
   )
   const [[style, _placement], setData] = useState(getter)
