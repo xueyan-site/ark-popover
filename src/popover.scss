@@ -4,6 +4,9 @@ span.xrpopover {
 .xrpopover {
   position: relative;
   cursor: pointer;
+  &.disabled {
+    cursor: inherit;
+  }
   .content {
     position: absolute;
     width: max-content;

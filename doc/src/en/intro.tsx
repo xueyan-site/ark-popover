@@ -32,7 +32,7 @@ export default function Main() {
         placement='topLeft'
         content={<div>东西南北</div>}
       >
-        <button>上左</button>
+        <div>上左</div>
       </Popover>
       <div style={row}>
         <div style={col}></div>
@@ -40,10 +40,11 @@ export default function Main() {
           <BubblePopover 
             value={true}
             ref={popoverRef}
+            disabled
             placement='topLeft'
             content={<div>东西南北</div>}
           >
-            <button>上左</button>
+            <div>上左</div>
           </BubblePopover>
         </div>
         <div style={col}>
@@ -52,7 +53,7 @@ export default function Main() {
             keepStyle={1}
             content={<div>东西南北</div>}
           >
-            <button>上中</button>
+            <div>上中</div>
           </BubblePopover>
         </div>
         <div style={col}>
@@ -60,7 +61,7 @@ export default function Main() {
             placement='topRight'
             content={<div>东西南北</div>}
           >
-            <button>上右</button>
+            <div>上右</div>
           </BubblePopover>
         </div>
       </div>
@@ -71,7 +72,7 @@ export default function Main() {
             backgroundColor="#ff3388"
             content={<div>东西南北</div>}
           >
-            <button>左上</button>
+            <div>左上</div>
           </BubblePopover>
         </div>
         <div style={col}>
@@ -80,7 +81,7 @@ export default function Main() {
             placement='bottomLeft'
             content={<div>东西南北</div>}
           >
-            <button>===</button>
+            <div>===</div>
           </BubblePopover>
         </div>
         <div style={col}>
@@ -95,7 +96,7 @@ export default function Main() {
             backgroundColor="#ff3388"
             content={<div>东西南北</div>}
           >
-            <button>右上</button>
+            <div>右上</div>
           </BubblePopover>
         </div>
       </div>
@@ -106,7 +107,7 @@ export default function Main() {
             keepStyle={1}
             content={<div>东西南北</div>}
           >
-            <button>左中</button>
+            <div>左中</div>
           </BubblePopover>
         </div>
         <div style={col}>
@@ -124,7 +125,7 @@ export default function Main() {
             placement="left"
             content={<div>东西南北</div>}
           >
-            <button>右中</button>
+            <div>右中</div>
           </BubblePopover>
         </div>
       </div>
@@ -134,7 +135,7 @@ export default function Main() {
             placement='leftBottom'
             content={<div>东西南北</div>}
           >
-            <button>左下</button>
+            <div>左下</div>
           </BubblePopover>
         </div>
         <div style={col}>
@@ -151,7 +152,7 @@ export default function Main() {
             placement='rightBottom'
             content={<div>东西南北</div>}
           >
-            <button>右下</button>
+            <div>右下</div>
           </BubblePopover>
         </div>
       </div>
@@ -163,7 +164,7 @@ export default function Main() {
             backgroundColor="#ff3388"
             content={<div>东西南北</div>}
           >
-            <button>下左</button>
+            <div>下左</div>
           </BubblePopover>
         </div>
         <div style={col}>
@@ -172,7 +173,7 @@ export default function Main() {
             keepStyle={1}
             content={<div>东西南北</div>}
           >
-            <button style={{ display: 'block' }}>下中</button>
+            <div style={{ display: 'block' }}>下中</div>
           </BubblePopover>
         </div>
         <div style={col}>
@@ -180,7 +181,7 @@ export default function Main() {
             placement='bottomRight'
             content={<div>东西南北</div>}
           >
-            <button>下右</button>
+            <div>下右</div>
           </BubblePopover>
         </div>
         <div style={col}></div>
