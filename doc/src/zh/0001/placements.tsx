@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './placements.scss'
-import { BubblePopover } from 'xueyan-react-popover'
+import { BubblePopover } from 'ark-popover'
 
 export function Placements() {
   return (

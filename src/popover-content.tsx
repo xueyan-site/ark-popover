@@ -1,10 +1,10 @@
 import React, { createElement, useLayoutEffect, useState } from 'react'
 import cn from 'classnames'
-import { SlideTransition } from 'xueyan-react-transition'
+import { SlideTransition } from 'ark-transition'
 import { getPlacementStyle } from './popover-utils'
 import styles from './popover.scss'
 import type { PopoverBasePlacement, PopoverPlacement, PopoverStyleKeeper } from './popover-utils'
-import type { SlideTransitionProps } from 'xueyan-react-transition'
+import type { SlideTransitionProps } from 'ark-transition'
 
 export interface PopoverContentNodeRenderProps {
   /** 外部根节点 */

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Article, Segment } from 'xueyan-react-markdown'
 import { Playground } from 'xueyan-react-playground'
-import { BubblePopover } from 'xueyan-react-popover'
+import { BubblePopover } from 'ark-popover'
 
 const MARK1 = `
 气泡状弹出式浮层组件
@@ -19,7 +19,7 @@ type Popover = React.ForwardRefExoticComponent<
 
 const CODE1 = `
 import React from 'react'
-import { BubblePopover } from 'xueyan-react-popover'
+import { BubblePopover } from 'ark-popover'
 
 export default function Example() {
   return (

@@ -1,9 +1,9 @@
 {
-  "name": "xueyan-react-popover",
-  "version": "1.3.2",
+  "name": "ark-popover",
+  "version": "1.0.0",
   "author": "xueyan-site <xueyan@xueyan.site>",
   "license": "LGPL-3.0",
-  "description": "react popover component",
+  "description": "Popover component in a react kit",
   "main": "dist/node",
   "types": "dist/def",
   "module": "dist/web",
@@ -16,19 +16,19 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/xueyan-site/xueyan-react-popover.git"
+    "url": "https://github.com/xueyan-site/ark-popover.git"
   },
   "files": [
     "dist/**/*"
   ],
   "scripts": {
-    "start": "xt start",
-    "build": "xt build"
+    "dev": "sdin dev",
+    "build": "sdin build"
   },
   "dependencies": {
     "@babel/runtime": "^7.12.0",
-    "xueyan-react-style": "^2.0.2",
-    "xueyan-react-transition": "^1.0.8"
+    "solor": "^1.0.0",
+    "ark-transition": "^1.0.0"
   },
   "peerDependencies": {
     "classnames": "^2.3.0",

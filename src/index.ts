@@ -1,4 +1,4 @@
-import 'xueyan-react-style'
+import 'solor'
 
 export { Popover } from './popover'
 export { BubblePopover } from './bubble-popover'

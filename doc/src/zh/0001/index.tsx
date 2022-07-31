@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Article, Segment } from 'xueyan-react-markdown'
 import { Playground } from 'xueyan-react-playground'
-import { BubblePopover } from 'xueyan-react-popover'
+import { BubblePopover } from 'ark-popover'
 import { Placements } from './placements'
 
 const MARK1 = `
@@ -12,7 +12,7 @@ const MARK1 = `
 
 const code1 = `
 import React from 'react'
-import { BubblePopover } from 'xueyan-react-popover'
+import { BubblePopover } from 'ark-popover'
 
 export default function Example() {
   return (

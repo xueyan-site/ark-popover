@@ -1,8 +1,8 @@
 {
-  "name": "xueyan-react-popover-doc",
+  "name": "ark-popover-doc",
   "version": "1.0.0",
   "author": "xueyan-site <xueyan@xueyan.site>",
-  "description": "xueyan-react-popover document",
+  "description": "ark-popover document",
   "private": true,
   "scripts": {
     "start": "xt start",
