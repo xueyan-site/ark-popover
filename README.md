@@ -1,6 +1,8 @@
 # ark-popover
 
-React popover component
+![ark-popover](https://xueyan.site/ark-popover/ast/project.png)
+
+`Popover` component in `a react kit`
 
 ## Document
 
